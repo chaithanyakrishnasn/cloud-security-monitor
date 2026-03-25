@@ -6,6 +6,7 @@ import time
 # EC2 SECURITY CHECKS
 # -------------------------------
 
+
 def check_security_groups(ec2_client, security_group_ids):
     risky_ports = [22, 3389]
     is_open = False
@@ -62,6 +63,7 @@ def fetch_ec2_instances():
 
     return findings
 
+
 def send_to_cloudwatch(findings):
     logs = boto3.client('logs', region_name='ap-south-1')
 
@@ -103,6 +105,7 @@ def send_to_cloudwatch(findings):
 # S3 DISCOVERY
 # -------------------------------
 
+
 def list_s3_buckets():
     s3 = boto3.client('s3')
 
@@ -116,6 +119,7 @@ def list_s3_buckets():
         buckets.append(bucket_name)
 
     return buckets
+
 
 def check_s3_public_access():
     s3 = boto3.client('s3')
@@ -167,10 +171,11 @@ def check_s3_public_access():
 
     return findings
 
+
 def send_sns_alert(findings):
     sns = boto3.client('sns', region_name='ap-south-1')
 
-    topic_arn = "arn:aws:sns:ap-south-1:588738611903:cloud-security-alerts"
+    topic_arn = "your-arn-here"  # Replace with your SNS topic ARN
 
     message = json.dumps(findings, indent=2)
 
